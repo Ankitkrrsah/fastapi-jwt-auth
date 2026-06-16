@@ -133,6 +133,24 @@ def genNewToken(data: RefreshTokenRequest, db=Depends(get_db)):
         "token_type": "bearer"
     }
 
+@router.post("/logout")
+def logout(data: RefreshTokenRequest, db=Depends(get_db), user=Depends(verify_token)):
+    cur, conn = db
+
+    cur.execute(
+        """
+        DELETE FROM refresh_tokens
+        WHERE token = %s
+        """,
+        (data.refresh_token,)
+    )
+    conn.commit()
+
+    if cur.rowcount == 0:
+        raise HTTPException(status_code=400, detail="Invalid refresh token")
+
+    return {"message": "Successfully logged out"}
+
 @router.get("/home")
 def home(user=Depends(verify_token)):
     return {

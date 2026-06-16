@@ -17,6 +17,7 @@ The application code is cleanly separated into the following layers inside the `
 
 - **User Registration**: Hash and store user passwords securely using `bcrypt`.
 - **User Login**: Authenticate users and return access and refresh tokens.
+- **User Logout**: Invalidate refresh tokens to securely sign users out.
 - **Token Refresh**: Generate new access tokens using valid refresh tokens with automatic token rotation.
 - **Protected Routes**: Secure endpoints requiring valid Bearer tokens (e.g., `/home`).
 - **PostgreSQL Integration**: Thread-safe database connections per request.
@@ -27,6 +28,7 @@ The application code is cleanly separated into the following layers inside the `
 |---|---|---|
 | `POST` | `/register` | Register a new user |
 | `POST` | `/login` | Authenticate and retrieve JWT tokens |
+| `POST` | `/logout` | Revoke refresh token and log out the user |
 | `POST` | `/refresh` | Rotate and issue a new refresh/access token pair |
 | `GET` | `/home` | Example of a protected endpoint (Requires Auth) |
 
